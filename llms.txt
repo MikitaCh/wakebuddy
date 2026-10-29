@@ -21,5 +21,8 @@
 
 ## Blog
 
+- [Cómo dejar de posponer la alarma y levantarte a la primera](https://wakebuddy.app/es/blog/como-dejar-de-posponer-la-alarma/) (Español): Qué dicen los estudios sobre posponer la alarma, por qué lo haces medio dormido y un plan para levantarte a la primera, con los ajustes del iPhone.
+- [二度寝を防止するには？　5分おきのスヌーズをやめて、一度で起きる方法](https://wakebuddy.app/ja/blog/nidone-boushi/) (日本語): 5分おきに鳴らすスヌーズが、目覚めを悪くしているのかもしれません。広島大学の研究や厚生労働省の睡眠ガイドをもとに、二度寝を防止するための準備とiPhoneの設定、受診の目安をまとめました。
+- [Den Wecker nicht hören: Woran es liegt und was hilft](https://wakebuddy.app/de/blog/wecker-nicht-hoeren/) (Deutsch): Du hörst deinen Wecker nicht? Oft stecken Schlafmangel, die innere Uhr oder ein zu leises iPhone dahinter. Was hilft und wann du ärztlichen Rat brauchst.
 - [The Best Alarm for Heavy Sleepers: What Actually Gets You Up](https://wakebuddy.app/blog/alarm-for-heavy-sleepers/): Sleeping through alarms usually isn't about volume. Why heavy sleepers miss alarms, how six types of alarms compare, and a setup that works for most people.
 - [How to Stop Hitting Snooze: 7 Fixes That Actually Work](https://wakebuddy.app/blog/how-to-stop-hitting-snooze/): More than half of mornings end with a snooze. Here's what sleep research says about the snooze button, and seven practical ways to get up on the first alarm.
