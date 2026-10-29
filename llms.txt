@@ -1,0 +1,25 @@
+# WakeBuddy
+
+> WakeBuddy is a talking alarm clock app for iPhone. A character wakes you up with their voice instead of a beep, gets tougher every time you snooze, and the alarm stops only when you say your wake-up phrase out loud (or type it).
+
+- Platform: iPhone with iOS 26 or later. App Store: https://apps.apple.com/app/id6818500460
+- Languages: English, Japanese, Spanish, German
+- Characters: Evil Kitty (your cat wants breakfast. now), Girlfriend (your dream girl, waking you up), Boyfriend (your dream guy, waking you up), Lucky Girl (your lucky girl morning ritual), Motivator (wake up and chase your dreams), Sarge (your personal drill sergeant), Roast (your morning, roasted). Premium users can also record their own alarm voice or receive one from a partner.
+- Alarms ring in Silent mode and Focus (built on the iPhone alarm system, AlarmKit). Pressing a volume button silences the alarm for 90 seconds, then it rings again.
+- Privacy: speech recognition runs on the device; audio is never recorded or sent. No accounts, no ads, no tracking.
+- Pricing: free with one alarm and Sarge. Premium (all characters, unlimited alarms, your own voice) is weekly, yearly with a 7-day free trial, or a one-time lifetime purchase.
+- Developer: Mikita Chyrkun. Contact: nikitachirkun@gmail.com
+
+## Pages
+
+- [WakeBuddy (English)](https://wakebuddy.app/): what the app does, characters, features, pricing, FAQ
+- [WakeBuddy (日本語)](https://wakebuddy.app/ja/)
+- [WakeBuddy (Español)](https://wakebuddy.app/es/)
+- [WakeBuddy (Deutsch)](https://wakebuddy.app/de/)
+- [Support](https://wakebuddy.app/support/): troubleshooting and contact
+- [Privacy Policy](https://wakebuddy.app/privacy.html)
+
+## Blog
+
+- [The Best Alarm for Heavy Sleepers: What Actually Gets You Up](https://wakebuddy.app/blog/alarm-for-heavy-sleepers/): Sleeping through alarms usually isn't about volume. Why heavy sleepers miss alarms, how six types of alarms compare, and a setup that works for most people.
+- [How to Stop Hitting Snooze: 7 Fixes That Actually Work](https://wakebuddy.app/blog/how-to-stop-hitting-snooze/): More than half of mornings end with a snooze. Here's what sleep research says about the snooze button, and seven practical ways to get up on the first alarm.
