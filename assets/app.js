@@ -321,8 +321,7 @@
 
     const cancelListening = () => {
       if (!listening) return;
-      listening.onresult = listening.onerror = listening.onend = null;
-      listening.abort();
+      listening.drop();
       listening = null;
       morning.classList.remove('listening');
       orb.setAttribute('aria-pressed', 'false');
@@ -486,36 +485,36 @@
       heading.focus({ preventScroll: true });  // не на кнопку: Enter из поля фразы «нажал» бы её
     };
 
+    // Списки результатов — по индексу: перебор через ... есть не во всех браузерах.
+    const list = (items) => Array.from({ length: items.length }, (_, i) => items[i]);
+    // Safari на iPhone сам обрывает запись на первой паузе («Mercy,» — и всё), поэтому слушаем непрерывно и
+    // заканчиваем сами: через 1,6 с тишины после слов, через 5 с, если слов нет, и через 10 с в любом случае.
     const listen = (event) => {
       if (!armed(event)) return;
       if (!Recognition) return typeInstead('task_type');
-      if (listening) { listening.stop(); return; }  // второй тап — «я всё сказал»
+      if (listening) { listening.halt(); return; }  // второй тап — «я всё сказал»
       timers.forEach(clearTimeout);
       timers = [];
       silence();
       const rec = new Recognition();
       rec.lang = m.speech;
+      rec.continuous = true;
       rec.interimResults = true;
       rec.maxAlternatives = 3;
       let heard = '';
-      let settled = false;
       let best = 0;
-      rec.onresult = (evt) => {
-        const texts = [...evt.results].flatMap((result) => [...result].map((alt) => alt.transcript));
-        texts.push([...evt.results].map((result) => result[0].transcript).join(' '));  // фраза, разбитая на куски
-        heard = texts.join(' ');
-        best = Math.max(best, ...texts.map(spoken));
-        if (best >= .6) { settled = true; cancelListening(); win(); }
-      };
-      rec.onerror = (evt) => {
-        if (evt.error === 'not-allowed') { settled = true; typeInstead('task_denied'); }
-        else if (['service-not-allowed', 'network', 'audio-capture', 'language-not-supported', 'bad-grammar'].includes(evt.error)) {
-          settled = true;
-          typeInstead('task_type');
-        }
-      };
-      rec.onend = () => {
-        listening = null;
+      let settled = false;
+      let ended = false;
+      let quiet = 0;
+      let grace = 0;
+      const stopTimers = () => { clearTimeout(quiet); clearTimeout(limit); clearTimeout(grace); };
+      // Конец попытки: оценить услышанное (если ещё не выиграли и не ушли на ввод текстом).
+      const end = () => {
+        if (ended) return;
+        ended = true;
+        stopTimers();
+        rec.onresult = rec.onerror = rec.onend = null;
+        if (listening === rec) listening = null;
         morning.classList.remove('listening');
         orb.setAttribute('aria-pressed', 'false');
         if (settled || morning.dataset.state !== 'task') return;
@@ -523,12 +522,50 @@
         empty += 1;
         if (empty >= 2) typeInstead('task_type'); else react('', false);
       };
+      // Попросить распознавание закончить; если оно так и не пришлёт onend (бывает в Safari) — закончить самим.
+      rec.halt = () => {
+        if (ended) return;
+        try { rec.stop(); } catch (error) { /* уже остановлено */ }
+        clearTimeout(grace);
+        grace = setTimeout(() => { try { rec.abort(); } catch (error) { /* уже остановлено */ } end(); }, 1500);
+      };
+      rec.drop = () => {
+        ended = true;
+        stopTimers();
+        rec.onresult = rec.onerror = rec.onend = null;
+        try { rec.abort(); } catch (error) { /* уже остановлено */ }
+        morning.classList.remove('listening');
+        orb.setAttribute('aria-pressed', 'false');
+      };
+      const hush = (ms) => { clearTimeout(quiet); quiet = setTimeout(rec.halt, ms); };
+      const limit = setTimeout(rec.halt, 10000);
+      rec.onresult = (evt) => {
+        const results = list(evt.results);
+        const texts = results.flatMap((result) => list(result).map((alt) => alt.transcript));
+        const said = results.map((result) => result[0].transcript).join(' ').replace(/\s+/g, ' ').trim();
+        texts.push(said);  // фраза, разбитая на куски
+        heard = texts.join(' ');
+        best = Math.max(best, ...texts.map(spoken));
+        if (said) state.textContent = `${m.marks[0]}${said}${m.marks[1]}`;  // видно, что микрофон слышит
+        if (best >= .6) { settled = true; cancelListening(); win(); return; }
+        hush(1600);
+      };
+      rec.onerror = (evt) => {
+        if (evt.error === 'not-allowed') { settled = true; end(); typeInstead('task_denied'); }
+        else if (['service-not-allowed', 'network', 'audio-capture', 'language-not-supported', 'bad-grammar'].includes(evt.error)) {
+          settled = true;
+          end();
+          typeInstead('task_type');
+        } else rec.halt();  // no-speech, aborted — оценить то, что успели услышать
+      };
+      rec.onend = end;
       listening = rec;
       morning.classList.add('listening');
       morning.classList.remove('missed');
       orb.setAttribute('aria-pressed', 'true');
       state.textContent = m.listening;
-      try { rec.start(); } catch (error) { typeInstead('task_type'); }
+      try { rec.start(); } catch (error) { settled = true; end(); typeInstead('task_type'); return; }
+      hush(5000);
     };
 
     const reset = () => {
