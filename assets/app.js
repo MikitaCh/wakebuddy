@@ -432,7 +432,12 @@
       }
       return row[b.length];
     };
-    const words = (s) => s.normalize('NFKD').toLowerCase().replace(/[\p{M}]/gu, '').split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+    // Safari на iPhone иногда распознаёт на языке Siri, а не страницы: «Мерси ивел кити» вместо «Mercy evil kitty».
+    // Поэтому кириллицу переводим в латиницу и сравниваем по звучанию (c → k/s, y → i, без двойных букв).
+    const CYR = 'а:a б:b в:v г:g д:d е:e ё:e ж:zh з:z и:i й:i к:k л:l м:m н:n о:o п:p р:r с:s т:t у:u ф:f х:h ц:ts ч:ch ш:sh щ:sch ъ: ы:i ь: э:e ю:yu я:ya';
+    const cyr = Object.fromEntries(CYR.split(' ').map((pair) => pair.split(':')));
+    const sound = (w) => w.replace(/[а-яё]/g, (ch) => cyr[ch]).replace(/c(?=[eiy])/g, 's').replace(/c/g, 'k').replace(/y/g, 'i').replace(/(.)\1+/g, '$1');
+    const words = (s) => s.toLowerCase().replace(/ё/g, 'е').normalize('NFKD').replace(/[\p{M}]/gu, '').split(/[^\p{L}\p{N}]+/u).filter(Boolean).map(sound);
     const goals = [m.phrase, ...(m.alts || [])].map(words);  // японскую фразу распознавание пишет то каной, то кандзи
     const likeness = (a, b) => (a || b ? 1 - distance(a, b) / Math.max(a.length, b.length) : 0);
     // Как PhraseMatcher в приложении: лучшее окно из n−1…n+1 подряд идущих слов (лишнее «um» и обрывки не мешают).
@@ -446,19 +451,27 @@
           }
         }
       }
-      return best;
+      return Math.max(best, ...goals.map((goal) => hits(said, goal)));
+    };
+    // Распознавание в браузере часто путает одно слово («Mercy evil city», «Percy evil kitty») — для демо хватает,
+    // чтобы узнавалось большинство слов фразы: доля слов фразы, у которых в услышанном есть похожее.
+    const hits = (said, goal) => {
+      if (goal.length < 3) return 0;  // из двух слов одно — это ещё не фраза
+      return goal.filter((g) => said.some((w) => likeness(w, g) >= .5)).length / goal.length;
     };
     const typed = (text) => Math.max(...goals.map((goal) => likeness(words(text).join(''), goal.join(''))));
     const close = (text) => typed(text) >= .9;
     // Почти угадал — «Close. But close does not fill the bowl.»; совсем не то — «What was that? Speak up, servant.»
-    const react = (text, nearly) => {
+    const react = (text, nearly, shown = '') => {
       morning.classList.add('missed');
+      // при промахе оставить видным, что расслышал микрофон, — иначе непонятно, что пошло не так
       state.textContent = nearly ? m.miss : m.huh;
+      if (shown) state.textContent += ` ${m.marks[0]}${shown}${m.marks[1]}`;
       lineText.textContent = nearly ? m.no : m.huh_line;
       lineFile = nearly ? 'demo-no.m4a' : 'demo-huh.m4a';
       voice(lineFile);
     };
-    const miss = (text, score = typed(text)) => react(text, score >= .4);
+    const miss = (text, score = typed(text), shown = '') => react(text, score >= .4, shown);
     const typeInstead = (key) => {
       cancelListening();
       morning.classList.add('typing');
@@ -502,6 +515,7 @@
       rec.interimResults = true;
       rec.maxAlternatives = 3;
       let heard = '';
+      let shown = '';
       let best = 0;
       let settled = false;
       let ended = false;
@@ -518,7 +532,7 @@
         morning.classList.remove('listening');
         orb.setAttribute('aria-pressed', 'false');
         if (settled || morning.dataset.state !== 'task') return;
-        if (heard.trim()) { empty = 0; miss(heard, best); return; }
+        if (heard.trim()) { empty = 0; miss(heard, best, shown); return; }
         empty += 1;
         if (empty >= 2) typeInstead('task_type'); else react('', false);
       };
@@ -546,7 +560,7 @@
         texts.push(said);  // фраза, разбитая на куски
         heard = texts.join(' ');
         best = Math.max(best, ...texts.map(spoken));
-        if (said) state.textContent = `${m.marks[0]}${said}${m.marks[1]}`;  // видно, что микрофон слышит
+        if (said) { shown = said; state.textContent = `${m.marks[0]}${said}${m.marks[1]}`; }  // видно, что микрофон слышит
         if (best >= .6) { settled = true; cancelListening(); win(); return; }
         hush(1600);
       };
