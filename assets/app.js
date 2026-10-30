@@ -215,7 +215,6 @@
     const steps = [...morning.querySelectorAll('.m-steps li')];
     const stepTime = steps.map((li) => li.querySelector('.m-t'));
     const stepDefault = stepTime.map((el) => el.textContent);
-    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let round = 0;
     let snoozes = 0;
     let clip = '';         // файл блока, который сейчас в плеере
@@ -226,11 +225,10 @@
     let cue = -1;
     let frame = 0;
     let timers = [];
-    let listening = null;
+    let saying = 0;        // кадр анимации «сонный голос говорит фразу»
     let muted = false;
     let seen = false;
     let armedAt = 0;
-    let empty = 0;
 
     // Завтрашняя дата того, кто смотрит сайт.
     const tomorrow = new Date(Date.now() + 864e5);
@@ -319,10 +317,10 @@
     });
     const prefetch = (file) => { if (!frugal && file) fetch(base + file).catch(() => {}); };
 
-    const cancelListening = () => {
-      if (!listening) return;
-      listening.drop();
-      listening = null;
+    const cancelSaying = () => {
+      if (!saying) return;
+      cancelAnimationFrame(saying);
+      saying = 0;
       morning.classList.remove('listening');
       orb.setAttribute('aria-pressed', 'false');
     };
@@ -330,7 +328,7 @@
       timers.forEach(clearTimeout);
       timers = [];
       cancelAnimationFrame(frame);
-      cancelListening();
+      cancelSaying();
       silence();
     };
 
@@ -404,19 +402,19 @@
       stopAll();
       const reached = Math.min(round, 3);
       setState('task');
-      setScene(Recognition ? 'task' : 'task_type');
+      setScene('task');
       stepTime[3].textContent = clock((round - 1) * 5 + 1);
       mark(steps.map((_, i) => (i === 3 ? 'on' : i < reached ? 'past' : 'skipped')));
       morning.classList.remove('missed');
-      morning.classList.toggle('typing', !Recognition);
-      form.hidden = Boolean(Recognition);
-      empty = 0;
-      state.textContent = Recognition ? m.mic : '';
+      morning.classList.remove('typing');
+      form.hidden = true;
+      state.textContent = m.mic;
+      prefetch(m.say.file);
       const line = m.lines[reached - 1];
       lineText.textContent = line.text;
       lineFile = line.file;
       later(() => voice(line.file), 450);
-      (Recognition ? orb : input).focus({ preventScroll: true });
+      orb.focus({ preventScroll: true });
     };
 
     const distance = (a, b) => {
@@ -432,48 +430,22 @@
       }
       return row[b.length];
     };
-    // Safari на iPhone иногда распознаёт на языке Siri, а не страницы: «Мерси ивел кити» вместо «Mercy evil kitty».
-    // Поэтому кириллицу переводим в латиницу и сравниваем по звучанию (c → k/s, y → i, без двойных букв).
-    const CYR = 'а:a б:b в:v г:g д:d е:e ё:e ж:zh з:z и:i й:i к:k л:l м:m н:n о:o п:p р:r с:s т:t у:u ф:f х:h ц:ts ч:ch ш:sh щ:sch ъ: ы:i ь: э:e ю:yu я:ya';
-    const cyr = Object.fromEntries(CYR.split(' ').map((pair) => pair.split(':')));
-    const sound = (w) => w.replace(/[а-яё]/g, (ch) => cyr[ch]).replace(/c(?=[eiy])/g, 's').replace(/c/g, 'k').replace(/y/g, 'i').replace(/(.)\1+/g, '$1');
-    const words = (s) => s.toLowerCase().replace(/ё/g, 'е').normalize('NFKD').replace(/[\p{M}]/gu, '').split(/[^\p{L}\p{N}]+/u).filter(Boolean).map(sound);
-    const goals = [m.phrase, ...(m.alts || [])].map(words);  // японскую фразу распознавание пишет то каной, то кандзи
+    const words = (s) => s.normalize('NFKD').toLowerCase().replace(/[\p{M}]/gu, '').split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+    const goals = [m.phrase, ...(m.alts || [])].map(words);  // японскую фразу пишут то каной, то кандзи
     const likeness = (a, b) => (a || b ? 1 - distance(a, b) / Math.max(a.length, b.length) : 0);
-    // Как PhraseMatcher в приложении: лучшее окно из n−1…n+1 подряд идущих слов (лишнее «um» и обрывки не мешают).
-    const spoken = (text) => {
-      const said = words(text);
-      let best = 0;
-      for (const goal of goals) {
-        for (let size = Math.max(1, goal.length - 1); size <= goal.length + 1; size++) {
-          for (let i = 0; i + size <= Math.max(said.length, size); i++) {
-            best = Math.max(best, likeness(said.slice(i, i + size).join(''), goal.join('')));
-          }
-        }
-      }
-      return Math.max(best, ...goals.map((goal) => hits(said, goal)));
-    };
-    // Распознавание в браузере часто путает одно слово («Mercy evil city», «Percy evil kitty») — для демо хватает,
-    // чтобы узнавалось большинство слов фразы: доля слов фразы, у которых в услышанном есть похожее.
-    const hits = (said, goal) => {
-      if (goal.length < 3) return 0;  // из двух слов одно — это ещё не фраза
-      return goal.filter((g) => said.some((w) => likeness(w, g) >= .5)).length / goal.length;
-    };
     const typed = (text) => Math.max(...goals.map((goal) => likeness(words(text).join(''), goal.join(''))));
     const close = (text) => typed(text) >= .9;
     // Почти угадал — «Close. But close does not fill the bowl.»; совсем не то — «What was that? Speak up, servant.»
-    const react = (text, nearly, shown = '') => {
+    const react = (text, nearly) => {
       morning.classList.add('missed');
-      // при промахе оставить видным, что расслышал микрофон, — иначе непонятно, что пошло не так
       state.textContent = nearly ? m.miss : m.huh;
-      if (shown) state.textContent += ` ${m.marks[0]}${shown}${m.marks[1]}`;
       lineText.textContent = nearly ? m.no : m.huh_line;
       lineFile = nearly ? 'demo-no.m4a' : 'demo-huh.m4a';
       voice(lineFile);
     };
-    const miss = (text, score = typed(text), shown = '') => react(text, score >= .4, shown);
+    const miss = (text) => react(text, typed(text) >= .4);
     const typeInstead = (key) => {
-      cancelListening();
+      cancelSaying();
       morning.classList.add('typing');
       morning.classList.remove('missed');
       form.hidden = false;
@@ -498,88 +470,36 @@
       heading.focus({ preventScroll: true });  // не на кнопку: Enter из поля фразы «нажал» бы её
     };
 
-    // Списки результатов — по индексу: перебор через ... есть не во всех браузерах.
-    const list = (items) => Array.from({ length: items.length }, (_, i) => items[i]);
-    // Safari на iPhone сам обрывает запись на первой паузе («Mercy,» — и всё), поэтому слушаем непрерывно и
-    // заканчиваем сами: через 1,6 с тишины после слов, через 5 с, если слов нет, и через 10 с в любом случае.
+    // Живое распознавание в Safari на iPhone ненадёжно, поэтому микрофон — сценка: сонный голос из ролика
+    // произносит фразу, слова появляются под микрофоном вслед за звуком, и будильник выключается.
     const listen = (event) => {
-      if (!armed(event)) return;
-      if (!Recognition) return typeInstead('task_type');
-      if (listening) { listening.halt(); return; }  // второй тап — «я всё сказал»
+      if (!armed(event) || saying || morning.dataset.state !== 'task') return;
       timers.forEach(clearTimeout);
       timers = [];
-      silence();
-      const rec = new Recognition();
-      rec.lang = m.speech;
-      rec.continuous = true;
-      rec.interimResults = true;
-      rec.maxAlternatives = 3;
-      let heard = '';
-      let shown = '';
-      let best = 0;
-      let settled = false;
-      let ended = false;
-      let quiet = 0;
-      let grace = 0;
-      const stopTimers = () => { clearTimeout(quiet); clearTimeout(limit); clearTimeout(grace); };
-      // Конец попытки: оценить услышанное (если ещё не выиграли и не ушли на ввод текстом).
-      const end = () => {
-        if (ended) return;
-        ended = true;
-        stopTimers();
-        rec.onresult = rec.onerror = rec.onend = null;
-        if (listening === rec) listening = null;
-        morning.classList.remove('listening');
-        orb.setAttribute('aria-pressed', 'false');
-        if (settled || morning.dataset.state !== 'task') return;
-        if (heard.trim()) { empty = 0; miss(heard, best, shown); return; }
-        empty += 1;
-        if (empty >= 2) typeInstead('task_type'); else react('', false);
-      };
-      // Попросить распознавание закончить; если оно так и не пришлёт onend (бывает в Safari) — закончить самим.
-      rec.halt = () => {
-        if (ended) return;
-        try { rec.stop(); } catch (error) { /* уже остановлено */ }
-        clearTimeout(grace);
-        grace = setTimeout(() => { try { rec.abort(); } catch (error) { /* уже остановлено */ } end(); }, 1500);
-      };
-      rec.drop = () => {
-        ended = true;
-        stopTimers();
-        rec.onresult = rec.onerror = rec.onend = null;
-        try { rec.abort(); } catch (error) { /* уже остановлено */ }
-        morning.classList.remove('listening');
-        orb.setAttribute('aria-pressed', 'false');
-      };
-      const hush = (ms) => { clearTimeout(quiet); quiet = setTimeout(rec.halt, ms); };
-      const limit = setTimeout(rec.halt, 10000);
-      rec.onresult = (evt) => {
-        const results = list(evt.results);
-        const texts = results.flatMap((result) => list(result).map((alt) => alt.transcript));
-        const said = results.map((result) => result[0].transcript).join(' ').replace(/\s+/g, ' ').trim();
-        texts.push(said);  // фраза, разбитая на куски
-        heard = texts.join(' ');
-        best = Math.max(best, ...texts.map(spoken));
-        if (said) { shown = said; state.textContent = `${m.marks[0]}${said}${m.marks[1]}`; }  // видно, что микрофон слышит
-        if (best >= .6) { settled = true; cancelListening(); win(); return; }
-        hush(1600);
-      };
-      rec.onerror = (evt) => {
-        if (evt.error === 'not-allowed') { settled = true; end(); typeInstead('task_denied'); }
-        else if (['service-not-allowed', 'network', 'audio-capture', 'language-not-supported', 'bad-grammar'].includes(evt.error)) {
-          settled = true;
-          end();
-          typeInstead('task_type');
-        } else rec.halt();  // no-speech, aborted — оценить то, что успели услышать
-      };
-      rec.onend = end;
-      listening = rec;
       morning.classList.add('listening');
       morning.classList.remove('missed');
       orb.setAttribute('aria-pressed', 'true');
       state.textContent = m.listening;
-      try { rec.start(); } catch (error) { settled = true; end(); typeInstead('task_type'); return; }
-      hush(5000);
+      voice(m.say.file);
+      const start = performance.now();
+      let at = 0;
+      let heard = false;
+      const step = () => {
+        // время берём у плеера; пока звук не пошёл (или его нет) — по часам
+        if (ours() && player.currentTime > 0) { at = Math.max(at, player.currentTime); heard = true; }
+        else at = Math.max(at, (performance.now() - start) / 1000 - (heard ? 0 : .4));
+        const said = m.say.words.filter(([, s]) => s <= at).map(([w]) => w);
+        if (said.length) state.textContent = `${m.marks[0]}${said.join(m.say.sep)}${m.marks[1]}`;
+        if (at >= m.say.seconds + .3 || (heard && !ours())) {
+          saying = 0;
+          morning.classList.remove('listening');
+          orb.setAttribute('aria-pressed', 'false');
+          later(win, 350);
+          return;
+        }
+        saying = requestAnimationFrame(step);
+      };
+      saying = requestAnimationFrame(step);
     };
 
     const reset = () => {
@@ -643,9 +563,9 @@
     snoozeButton.addEventListener('click', snooze);
     $('[data-act="more"]').addEventListener('click', snooze);
     orb.addEventListener('click', listen);
-    $('[data-act="type"]').addEventListener('click', (event) => { if (armed(event)) typeInstead(Recognition ? 'task' : 'task_type'); });
+    $('[data-act="type"]').addEventListener('click', (event) => { if (armed(event)) typeInstead('task'); });
     $('[data-act="line"]').addEventListener('click', () => {
-      if (listening) { cancelListening(); state.textContent = m.mic; }
+      if (saying) { cancelSaying(); state.textContent = m.mic; }
       if (lineFile) voice(lineFile);
     });
     input.addEventListener('input', () => { if (typed(input.value) === 1) win(); });
