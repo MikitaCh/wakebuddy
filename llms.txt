@@ -21,6 +21,10 @@
 
 ## Blog
 
+- [AlarmKit Explained: Why Third-Party Alarms Can Finally Ring in Silent Mode](https://wakebuddy.app/blog/alarmkit-silent-mode/): Before iOS 26, alarm apps couldn't ring through Silent mode like the Clock app. AlarmKit changed that. What it does, its limits, and how to check your app.
+- [Apps de alarma en modo silencio: por qué por fin suenan en el iPhone](https://wakebuddy.app/es/blog/apps-de-alarma-modo-silencio/) (Español): ¿Suenan las apps de alarma en modo silencio? Desde iOS 26, sí, gracias a AlarmKit. Qué cambió, qué límites tiene y cómo comprobar que tu app sonará mañana.
+- [マナーモードでも鳴るアラームアプリの条件は？　iOS 26のAlarmKitを開発者が解説](https://wakebuddy.app/ja/blog/manner-mode-demo-naru-alarm-app/) (日本語): iPhoneでは、App Storeのアラームアプリも、iOS 26からマナーモードでも鳴らせるようになりました。マナーモードでも鳴るアラームアプリの条件と見分け方、それでも鳴らないときの落とし穴を、開発者がまとめました。
+- [Klingeln Wecker-Apps am iPhone trotz Lautlos? Was AlarmKit seit iOS 26 ändert](https://wakebuddy.app/de/blog/wecker-app-trotz-lautlos/) (Deutsch): Klingelt eine Wecker-App am iPhone trotz Lautlos? Seit iOS 26 ja, wenn sie AlarmKit nutzt. Was neu ist, wo die Grenzen liegen und wie du deine App prüfst.
 - [Cómo dejar de posponer la alarma y levantarte a la primera](https://wakebuddy.app/es/blog/como-dejar-de-posponer-la-alarma/) (Español): Qué dicen los estudios sobre posponer la alarma, por qué lo haces medio dormido y un plan para levantarte a la primera, con los ajustes del iPhone.
 - [二度寝を防止するには？　5分おきのスヌーズをやめて、一度で起きる方法](https://wakebuddy.app/ja/blog/nidone-boushi/) (日本語): 5分おきに鳴らすスヌーズが、目覚めを悪くしているのかもしれません。広島大学の研究や厚生労働省の睡眠ガイドをもとに、二度寝を防止するための準備とiPhoneの設定、受診の目安をまとめました。
 - [Den Wecker nicht hören: Woran es liegt und was hilft](https://wakebuddy.app/de/blog/wecker-nicht-hoeren/) (Deutsch): Du hörst deinen Wecker nicht? Oft stecken Schlafmangel, die innere Uhr oder ein zu leises iPhone dahinter. Was hilft und wann du ärztlichen Rat brauchst.
