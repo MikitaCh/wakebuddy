@@ -21,6 +21,7 @@
 
 ## Blog
 
+- [目覚ましを止めた記憶がないのはなぜ？　無意識に止めてしまう原因と対策](https://wakebuddy.app/ja/blog/mezamashi-tometa-kioku-ga-nai/) (日本語): 目覚ましを止めた記憶がないのは、止めたあとすぐ眠り直すと、その直前の数分間が記憶に残りにくいためかもしれません。睡眠と記憶の研究や厚生労働省の資料をもとに、原因と今夜からできる対策、受診の目安をまとめました。
 - [AlarmKit Explained: Why Third-Party Alarms Can Finally Ring in Silent Mode](https://wakebuddy.app/blog/alarmkit-silent-mode/): Before iOS 26, alarm apps couldn't ring through Silent mode like the Clock app. AlarmKit changed that. What it does, its limits, and how to check your app.
 - [Apps de alarma en modo silencio: por qué por fin suenan en el iPhone](https://wakebuddy.app/es/blog/apps-de-alarma-modo-silencio/) (Español): ¿Suenan las apps de alarma en modo silencio? Desde iOS 26, sí, gracias a AlarmKit. Qué cambió, qué límites tiene y cómo comprobar que tu app sonará mañana.
 - [マナーモードでも鳴るアラームアプリの条件は？　iOS 26のAlarmKitを開発者が解説](https://wakebuddy.app/ja/blog/manner-mode-demo-naru-alarm-app/) (日本語): iPhoneでは、App Storeのアラームアプリも、iOS 26からマナーモードでも鳴らせるようになりました。マナーモードでも鳴るアラームアプリの条件と見分け方、それでも鳴らないときの落とし穴を、開発者がまとめました。
