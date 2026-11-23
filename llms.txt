@@ -21,6 +21,10 @@
 
 ## Blog
 
+- [Angst zu verschlafen: Warum du vor frühen Terminen nicht einschläfst](https://wakebuddy.app/de/blog/angst-zu-verschlafen/) (Deutsch): Angst zu verschlafen und deshalb wach im Bett? Warum das Gehirn den Wecker bewacht, wann du ins Bett gehen solltest und wie du sicher rechtzeitig aufwachst.
+- [How to Sleep Before an Early Flight (and Be Sure You Wake Up)](https://wakebuddy.app/blog/how-to-sleep-before-an-early-flight/): Can't sleep before an early flight? Why your brain won't switch off, when to go to bed, how much sleep to expect, and how to make sure you wake up on time.
+- [寝坊が怖くて眠れないときは？　早起きの前夜に眠るコツと確実に起きる方法](https://wakebuddy.app/ja/blog/nebou-kowakute-nemurenai/) (日本語): 寝坊が怖くて眠れない、何度も目が覚めるのは、脳が起床時刻を見張っているせいかもしれません。寝る時刻の決め方、眠れないときの過ごし方、確実に起きるアラームの備え方をまとめました。
+- [No puedo dormir cuando tengo que madrugar: por qué pasa y qué hacer](https://wakebuddy.app/es/blog/no-puedo-dormir-cuando-tengo-que-madrugar/) (Español): ¿No puedes dormir cuando tienes que madrugar? El cerebro vigila la alarma. A qué hora acostarte, qué hacer si no te duermes y cómo asegurarte de despertar.
 - [目覚ましを止めた記憶がないのはなぜ？　無意識に止めてしまう原因と対策](https://wakebuddy.app/ja/blog/mezamashi-tometa-kioku-ga-nai/) (日本語): 目覚ましを止めた記憶がないのは、止めたあとすぐ眠り直すと、その直前の数分間が記憶に残りにくいためかもしれません。睡眠と記憶の研究や厚生労働省の資料をもとに、原因と今夜からできる対策、受診の目安をまとめました。
 - [AlarmKit Explained: Why Third-Party Alarms Can Finally Ring in Silent Mode](https://wakebuddy.app/blog/alarmkit-silent-mode/): Before iOS 26, alarm apps couldn't ring through Silent mode like the Clock app. AlarmKit changed that. What it does, its limits, and how to check your app.
 - [Apps de alarma en modo silencio: por qué por fin suenan en el iPhone](https://wakebuddy.app/es/blog/apps-de-alarma-modo-silencio/) (Español): ¿Suenan las apps de alarma en modo silencio? Desde iOS 26, sí, gracias a AlarmKit. Qué cambió, qué límites tiene y cómo comprobar que tu app sonará mañana.
