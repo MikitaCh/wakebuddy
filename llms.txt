@@ -21,6 +21,10 @@
 
 ## Blog
 
+- [Does Turkey Make You Sleepy? The Tryptophan Myth, Explained](https://wakebuddy.app/blog/does-turkey-make-you-sleepy/): Turkey has about as much tryptophan as chicken or cheese. What really causes the post-Thanksgiving slump: meal size, the afternoon dip, alcohol, short sleep.
+- [Müde nach dem Essen: Woher das Suppenkoma kommt und was hilft](https://wakebuddy.app/de/blog/muede-nach-dem-essen/) (Deutsch): Müde nach dem Essen ist meist normal: große Portionen, Mittagstief, Alkohol, wenig Schlaf. Was gegen das Suppenkoma hilft und wann du zum Arzt solltest.
+- [¿Por qué me da sueño después de comer? Causas y el mito del pavo](https://wakebuddy.app/es/blog/por-que-me-da-sueno-despues-de-comer/) (Español): El sueño después de comer es normal: influyen cuánto comes, el bajón de media tarde, el vino y dormir poco. Qué hay del pavo y cuándo ir al médico.
+- [食後の眠気はなぜ起こる？　血糖値スパイクは本当か、昼の眠気対策](https://wakebuddy.app/ja/blog/shokugo-nemuke/) (日本語): 食後の眠気の主な原因は、食べる量、昼過ぎの体内時計の眠気、お酒、前夜の睡眠不足です。「血糖値スパイクで眠くなる」はどこまで本当か、研究と公的情報から整理しました。
 - [光目覚まし時計に効果はある？　研究でわかったことと上手な使い方](https://wakebuddy.app/ja/blog/hikari-mezamashi/) (日本語): 光目覚まし時計の効果を研究から検証。起きたときのぼんやり感は減る一方、効果がはっきりしない点も。厚生労働省の睡眠ガイドが勧める朝の光と、選び方・使い方をまとめました。
 - [Lichtwecker: Was bringt er wirklich? Was die Studien zeigen](https://wakebuddy.app/de/blog/lichtwecker/) (Deutsch): Lichtwecker im Faktencheck: Was Studien zu Benommenheit, Wachheit und Winterblues zeigen, was sie nicht leisten und worauf du beim Kauf achten solltest.
 - [¿Por qué me despierto cansado aunque duerma 8 horas? 8 causas](https://wakebuddy.app/es/blog/por-que-me-despierto-cansado/) (Español): Por qué te despiertas cansado y con sueño aunque duermas 8 horas: inercia del sueño, horarios irregulares, alcohol, cafeína, apnea del sueño y qué hacer.
