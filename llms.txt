@@ -21,6 +21,10 @@
 
 ## Blog
 
+- [¿La alarma del iPhone no suena? Soluciones para iOS 26 y iOS 27](https://wakebuddy.app/es/blog/alarma-iphone-no-suena/) (Español): ¿La alarma del iPhone no suena, suena bajo o solo vibra? Qué regulador de volumen usa en iOS 26 y en iOS 27, otras ocho soluciones y cómo probarla esta noche.
+- [iPhoneのアラームが鳴らないときは？　iOS 26・iOS 27の音量設定と9つの対処法](https://wakebuddy.app/ja/blog/iphone-alarm-naranai/) (日本語): iPhoneのアラームが鳴らない、音が小さい、バイブだけ。多くの場合、原因はアラームの音量を決めている設定にあります。iOS 26とiOS 27で異なるその設定と、ほかの対処法、2分でできる確認方法をまとめました。
+- [iPhone Alarm Not Going Off? Fixes for iOS 26 and iOS 27](https://wakebuddy.app/blog/iphone-alarm-not-going-off/): iPhone alarm silent, too quiet or only vibrating? Find the volume setting your alarm really uses on iOS 26 and iOS 27, plus the other fixes, then test it.
+- [iPhone-Wecker klingelt nicht? Lösungen für iOS 26 und iOS 27](https://wakebuddy.app/de/blog/iphone-wecker-klingelt-nicht/) (Deutsch): Dein iPhone-Wecker klingelt nicht, ist zu leise oder vibriert nur? Welcher Regler unter iOS 26 und 27 zählt, dazu weitere Lösungen und ein Zwei-Minuten-Test.
 - [Does Turkey Make You Sleepy? The Tryptophan Myth, Explained](https://wakebuddy.app/blog/does-turkey-make-you-sleepy/): Turkey has about as much tryptophan as chicken or cheese. What really causes the post-Thanksgiving slump: meal size, the afternoon dip, alcohol, short sleep.
 - [Müde nach dem Essen: Woher das Suppenkoma kommt und was hilft](https://wakebuddy.app/de/blog/muede-nach-dem-essen/) (Deutsch): Müde nach dem Essen ist meist normal: große Portionen, Mittagstief, Alkohol, wenig Schlaf. Was gegen das Suppenkoma hilft und wann du zum Arzt solltest.
 - [¿Por qué me da sueño después de comer? Causas y el mito del pavo](https://wakebuddy.app/es/blog/por-que-me-da-sueno-despues-de-comer/) (Español): El sueño después de comer es normal: influyen cuánto comes, el bajón de media tarde, el vino y dormir poco. Qué hay del pavo y cuándo ir al médico.
