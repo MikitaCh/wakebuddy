@@ -21,6 +21,10 @@
 
 ## Blog
 
+- [How to Make a Voice Memo Your Alarm on iPhone (iOS 26 and 27)](https://wakebuddy.app/blog/how-to-make-a-voice-memo-an-alarm-on-iphone/): Turn a voice memo into an iPhone alarm: save it to Files, make a ringtone in free GarageBand (up to 30 seconds), then pick it in Clock. iOS 26 and 27 steps.
+- [Cómo poner una nota de voz o audio de WhatsApp como alarma en iPhone](https://wakebuddy.app/es/blog/nota-de-voz-como-alarma-iphone/) (Español): Pon una nota de voz como alarma en el iPhone: pásala a Archivos, hazla tono con GarageBand (gratis, hasta 30 s) y elígela en Reloj. ¿Y un audio de WhatsApp?
+- [Sprachmemo als Wecker am iPhone: So klappt es (iOS 26 und 27)](https://wakebuddy.app/de/blog/sprachmemo-als-wecker-iphone/) (Deutsch): Sprachmemo als Wecker am iPhone: in „Dateien“ sichern, mit GarageBand gratis zum Klingelton machen (max. 30 Sekunden), in der Uhr wählen. Ohne PC und iTunes.
+- [iPhoneのボイスメモをアラームに設定する方法　自分の声で起きるには](https://wakebuddy.app/ja/blog/voice-memo-alarm-iphone/) (日本語): iPhoneのボイスメモは、そのままではアラーム音に選べません。「ファイル」に保存し、無料のGarageBandで30秒以内の着信音にすれば、時計アプリのアラームで鳴らせます。パソコンは不要です。
 - [¿La alarma del iPhone no suena? Soluciones para iOS 26 y iOS 27](https://wakebuddy.app/es/blog/alarma-iphone-no-suena/) (Español): ¿La alarma del iPhone no suena, suena bajo o solo vibra? Qué regulador de volumen usa en iOS 26 y en iOS 27, otras ocho soluciones y cómo probarla esta noche.
 - [iPhoneのアラームが鳴らないときは？　iOS 26・iOS 27の音量設定と9つの対処法](https://wakebuddy.app/ja/blog/iphone-alarm-naranai/) (日本語): iPhoneのアラームが鳴らない、音が小さい、バイブだけ。多くの場合、原因はアラームの音量を決めている設定にあります。iOS 26とiOS 27で異なるその設定と、ほかの対処法、2分でできる確認方法をまとめました。
 - [iPhone Alarm Not Going Off? Fixes for iOS 26 and iOS 27](https://wakebuddy.app/blog/iphone-alarm-not-going-off/): iPhone alarm silent, too quiet or only vibrating? Find the volume setting your alarm really uses on iOS 26 and iOS 27, plus the other fixes, then test it.
